@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  test_database:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: "postgres_test"
+      POSTGRES_USER: "postgres_test"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - test_database
+    networks:
+      - default
+    ports:
+      - "8080:8080"

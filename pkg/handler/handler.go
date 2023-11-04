@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"github.com/Murolando/hakaton_bot_api/pkg/service"
 	"github.com/gin-gonic/gin"
 
 	_ "github.com/Murolando/hakaton_bot_api/docs"
@@ -10,13 +9,10 @@ import (
 )
 
 type Handler struct {
-	service *service.Service
 }
 
-func NewHandler(service *service.Service) *Handler {
-	return &Handler{
-		service: service,
-	}
+func NewHandler() *Handler {
+	return &Handler{}
 }
 
 func (h *Handler) InitRoutes() *gin.Engine {
@@ -31,7 +27,16 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 		metrics := api.Group("/metrics")
 		{
-			metrics.GET("/base-stat",h.baseStat)
+			metrics.GET("/base-stat", h.makeConnection, h.baseStat)
+		}
+		solutions := api.Group("/solutions")
+		{
+			solutions.POST("/kill-process/:pid", h.makeConnection,h.killProcessAction)
+			solutions.POST("/kill-base", h.makeConnection,h.killBaseAction)
+			solutions.POST("/restart", h.makeConnection, h.restartBaseAction)
+			solutions.POST("/stop-table/:tableName", h.makeConnection, h.stopTableAction)
+			solutions.POST("/run-table/:tableName", h.makeConnection, h.runTableAction)
+			// solutions.GET("/user-move",)
 		}
 	}
 	return router

@@ -11,3 +11,7 @@ func NewMetricService(repo *repository.Repository) *MetricService {
 		repo: repo,
 	}
 }
+
+// func (s *MetricService) baseStat(){
+
+// }
