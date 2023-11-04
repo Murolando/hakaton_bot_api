@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"github.com/Murolando/default_rest_arch/pkg/service"
+	"github.com/Murolando/hakaton_bot_api/pkg/service"
 	"github.com/gin-gonic/gin"
 
-	_ "github.com/Murolando/default_rest_arch/docs"
+	_ "github.com/Murolando/hakaton_bot_api/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -29,11 +29,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-		auth := api.Group("/auth")
+		metrics := api.Group("/metrics")
 		{
-			auth.POST("/sign-up", h.signUp)
-			auth.POST("/sign-in", h.signIn)
-			auth.GET("/refresh/:refresh", h.newRefresh)
+			metrics.GET("/base-stat",h.baseStat)
 		}
 	}
 	return router

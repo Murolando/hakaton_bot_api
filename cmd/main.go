@@ -5,12 +5,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/Murolando/default_rest_arch/pkg/handler"
-	"github.com/Murolando/default_rest_arch/pkg/repository"
-	"github.com/Murolando/default_rest_arch/pkg/repository/postgres"
-	"github.com/Murolando/default_rest_arch/pkg/service"
+	"github.com/Murolando/hakaton_bot_api/pkg/handler"
+	"github.com/Murolando/hakaton_bot_api/pkg/repository"
+	"github.com/Murolando/hakaton_bot_api/pkg/repository/postgres"
+	"github.com/Murolando/hakaton_bot_api/pkg/service"
 
-	srv "github.com/Murolando/default_rest_arch"
+	srv "github.com/Murolando/hakaton_bot_api"
 )
 
 func main() {
