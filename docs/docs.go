@@ -16,9 +16,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/auth/refresh/{refresh}": {
-            "get": {
-                "description": "generate new pair of jwt and refresh",
+        "/api/solutions/kill-base/": {
+            "post": {
+                "description": "stop postgresql on server",
                 "consumes": [
                     "application/json"
                 ],
@@ -26,15 +26,104 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "auth"
+                    "actions"
                 ],
-                "summary": "NewRefreshJwtTokens",
-                "operationId": "gen new tokens",
+                "summary": "Stop Database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/solutions/restart/": {
+            "post": {
+                "description": "stop database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actions"
+                ],
+                "summary": "stop database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/solutions/run-table/": {
+            "post": {
+                "description": "start writing in table",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actions"
+                ],
+                "summary": "Run table",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "old refresh token",
-                        "name": "refresh",
+                        "description": "table name",
+                        "name": "tableName",
                         "in": "path",
                         "required": true
                     }
@@ -71,9 +160,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/auth/sign-in": {
+        "/api/solutions/stop-table/": {
             "post": {
-                "description": "auth in account",
+                "description": "stop writing in table",
                 "consumes": [
                     "application/json"
                 ],
@@ -81,26 +170,24 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "auth"
+                    "actions"
                 ],
-                "summary": "SignIn",
-                "operationId": "auth in account",
+                "summary": "Lock table",
                 "parameters": [
                     {
-                        "description": "email and password",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.Auth"
-                        }
+                        "type": "string",
+                        "description": "table name",
+                        "name": "tableName",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
@@ -123,105 +210,7 @@ const docTemplate = `{
                             "type": "object",
                             "additionalProperties": true
                         }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
                     }
-                }
-            }
-        },
-        "/api/auth/sign-up": {
-            "post": {
-                "description": "create account",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "SignUp",
-                "operationId": "create-account",
-                "parameters": [
-                    {
-                        "description": "account info",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.UserRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "ent.Auth": {
-            "type": "object",
-            "properties": {
-                "login": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "ent.UserRequest": {
-            "type": "object",
-            "properties": {
-                "login": {
-                    "description": "Name *string ` + "`" + `json:\"name\"` + "`" + `",
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "role-id": {
-                    "type": "integer"
                 }
             }
         }
