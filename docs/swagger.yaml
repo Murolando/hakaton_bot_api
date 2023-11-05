@@ -1,11 +1,38 @@
+definitions:
+  ent.Config:
+    properties:
+      dbname:
+        type: string
+      host:
+        type: string
+      password:
+        type: string
+      port:
+        type: string
+      server:
+        type: string
+      ssh-password:
+        type: string
+      ssh-user:
+        type: string
+      user:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /api/solutions/kill-base/:
+  /api/metrics/base-stat/:
     post:
       consumes:
       - application/json
-      description: stop postgresql on server
+      description: stop database
+      parameters:
+      - description: config
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Config'
       produces:
       - application/json
       responses:
@@ -29,11 +56,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Stop Database
+      summary: get base stat
       tags:
-      - actions
-  /api/solutions/restart/:
-    post:
+      - info
+  /api/metrics/database-list/:
+    get:
       consumes:
       - application/json
       description: stop database
@@ -60,7 +87,126 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      summary: get user databases info
+      tags:
+      - info
+  /api/solutions/kill-base/:
+    post:
+      consumes:
+      - application/json
+      description: stop postgresql on server
+      parameters:
+      - description: config
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Config'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Stop Database
+      tags:
+      - actions
+  /api/solutions/kill-process/:
+    post:
+      consumes:
+      - application/json
+      description: stop database
+      parameters:
+      - description: process id
+        in: path
+        name: pid
+        required: true
+        type: string
+      - description: config
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Config'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
       summary: stop database
+      tags:
+      - actions
+  /api/solutions/restart/:
+    post:
+      consumes:
+      - application/json
+      description: restart database
+      parameters:
+      - description: config
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Config'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Restart database
       tags:
       - actions
   /api/solutions/run-table/:
@@ -69,6 +215,12 @@ paths:
       - application/json
       description: start writing in table
       parameters:
+      - description: config
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Config'
       - description: table name
         in: path
         name: tableName
@@ -106,6 +258,12 @@ paths:
       - application/json
       description: stop writing in table
       parameters:
+      - description: config
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Config'
       - description: table name
         in: path
         name: tableName

@@ -5,6 +5,7 @@ import (
 
 	"github.com/Murolando/hakaton_bot_api/ent"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
 
 const (

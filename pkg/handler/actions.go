@@ -14,6 +14,7 @@ import (
 // @Tags   actions
 // @Accept  json
 // @Produce  json
+// @Param input body ent.Config true "config"
 // @Success      200  {object}  map[string]interface{}
 // @Failure      400  {object}  map[string]interface{}
 // @Failure      404  {object}  map[string]interface{}
@@ -36,6 +37,7 @@ func (h *Handler) killBaseAction(c *gin.Context) {
 // @Tags   actions
 // @Accept  json
 // @Produce  json
+// @Param input body ent.Config true "config"
 // @Param   tableName path string true "table name"
 // @Success      200  {object}  map[string]interface{}
 // @Failure      400  {object}  map[string]interface{}
@@ -63,6 +65,7 @@ func (h *Handler) stopTableAction(c *gin.Context) {
 // @Tags   actions
 // @Accept  json
 // @Produce  json
+// @Param input body ent.Config true "config"
 // @Param   tableName path string true "table name"
 // @Success      200  {object}  map[string]interface{}
 // @Failure      400  {object}  map[string]interface{}
@@ -91,6 +94,7 @@ func (h *Handler) runTableAction(c *gin.Context) {
 // @Tags   actions
 // @Accept  json
 // @Produce  json
+// @Param input body ent.Config true "config"
 // @Success      200  {object}  map[string]interface{}
 // @Failure      400  {object}  map[string]interface{}
 // @Failure      404  {object}  map[string]interface{}
@@ -112,11 +116,13 @@ func (h *Handler) restartBaseAction(c *gin.Context) {
 // @Tags   actions
 // @Accept  json
 // @Produce  json
+// @Param   pid path string true "process id"
+// @Param input body ent.Config true "config"
 // @Success      200  {object}  map[string]interface{}
 // @Failure      400  {object}  map[string]interface{}
 // @Failure      404  {object}  map[string]interface{}
 // @Failure      500  {object}  map[string]interface{}
-// @Router /api/solutions/restart/ [post]
+// @Router /api/solutions/kill-process/ [post]
 func (h *Handler) killProcessAction(c *gin.Context) {
 	srv := c.Keys["service"].(*service.Service)
 	pID, err := strconv.Atoi(c.Param("pid"))

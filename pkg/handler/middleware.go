@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 
 	"github.com/Murolando/hakaton_bot_api/ent"
@@ -17,9 +17,11 @@ func (h *Handler) makeConnection(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
+	fmt.Println(config)
 	db, err := postgres.NewPostgresDB(&config)
 	if err != nil {
-		log.Fatal(err)
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
 	}
 	ssh := ent.SSH{
 		SSHUser:     config.SSHUser,
@@ -29,5 +31,6 @@ func (h *Handler) makeConnection(c *gin.Context) {
 	repo := repository.NewRepository(db)
 	service := service.NewService(repo)
 	c.Set("ssh", ssh)
+	c.Set("dbName",config.DBName)
 	c.Set("service", service)
 }
