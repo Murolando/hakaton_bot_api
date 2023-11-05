@@ -13,6 +13,7 @@ type Actions interface {
 	KillProcess(pid int64) (bool, error)
 }
 type Metrics interface {
+	BaseStat(bdName string)(*ent.AllMetrics,error)
 }
 type Service struct {
 	Metrics

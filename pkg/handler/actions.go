@@ -11,7 +11,7 @@ import (
 
 // stop database
 func (h *Handler) killBaseAction(c *gin.Context) {
-	srv := c.Keys["service"].(service.Service)
+	srv := c.Keys["service"].(*service.Service)
 	sshObject := c.Keys["ssh"].(ent.SSH)
 
 	result,err := srv.KillBase(&sshObject)
@@ -24,7 +24,7 @@ func (h *Handler) killBaseAction(c *gin.Context) {
 
 // lock table
 func (h *Handler) stopTableAction(c *gin.Context) {
-	srv := c.Keys["service"].(service.Service)
+	srv := c.Keys["service"].(*service.Service)
 	tableName := c.Param("tableName")
 	if tableName == ""{
 		newErrorResponse(c, http.StatusInternalServerError, "invalid tableName")
@@ -41,7 +41,7 @@ func (h *Handler) stopTableAction(c *gin.Context) {
 
 // run table
 func (h *Handler) runTableAction(c *gin.Context) {
-	srv := c.Keys["service"].(service.Service)
+	srv := c.Keys["service"].(*service.Service)
 	tableName := c.Param("tableName")
 	if tableName == ""{
 		newErrorResponse(c, http.StatusInternalServerError, "invalid tableName")
@@ -58,7 +58,7 @@ func (h *Handler) runTableAction(c *gin.Context) {
 
 // checkpoint and restart base
 func (h *Handler) restartBaseAction(c *gin.Context) {
-	srv := c.Keys["service"].(service.Service)
+	srv := c.Keys["service"].(*service.Service)
 	sshObject := c.Keys["ssh"].(ent.SSH)
 	err := srv.RestartBase(&sshObject)
 	if err != nil {
@@ -70,7 +70,7 @@ func (h *Handler) restartBaseAction(c *gin.Context) {
 
 // stop database
 func (h *Handler) killProcessAction(c *gin.Context) {
-	srv := c.Keys["service"].(service.Service)
+	srv := c.Keys["service"].(*service.Service)
 	pID, err := strconv.Atoi(c.Param("pid"))
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())

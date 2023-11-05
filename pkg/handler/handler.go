@@ -28,6 +28,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		metrics := api.Group("/metrics")
 		{
 			metrics.GET("/base-stat", h.makeConnection, h.baseStat)
+			metrics.GET("/database-list", h.dataBaseList)
 		}
 		solutions := api.Group("/solutions")
 		{
