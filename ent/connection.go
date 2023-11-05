@@ -8,7 +8,7 @@ type Config struct {
 	DBName   string `json:"dbname"`
 
 	SSHUser     string `json:"ssh-user"`
-	Server      string `json:"server"`
+	Server      string `json:"server-ip"`
 	SSHPassword string `json:"ssh-password"`
 }
 

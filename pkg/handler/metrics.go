@@ -53,23 +53,15 @@ func (h *Handler) dataBaseList(c *gin.Context) {
 		Port:     "5433",
 		User:     "postgres_test",
 		DBName:   "postgres_test",
-		Password: "123",
+		Password: "AASf1244125Af1r1",
 	})
 	database = append(database, &ent.Database{
 		Host:     "test_database",
 		Port:     "5432",
 		User:     "postgres_test",
 		DBName:   "postgres_test",
-		Password: "123",
+		Password: "!2441AAf14411",
 	})
-	database = append(database, &ent.Database{
-		Host:     "mock",
-		Port:     "mock",
-		User:     "mock",
-		DBName:   "mock",
-		Password: "mock",
-	})
-
 	newResponse(c, "database-list", database)
 
 }
